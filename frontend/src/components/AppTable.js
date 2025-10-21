@@ -20,9 +20,14 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import UserFormModal from "../components/UserModal";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import EditIcon from '@mui/icons-material/Edit';
 import ProjectsFormModal from "../components/ProyectosModal";
+import TaskTrackerModal from "../components/Taskmodal";
+import TaskFormModal from "../components/TaskFormModal";
+import TaskIcon from '@mui/icons-material/Task';
 
-function EnhancedTableToolbar({ numSelected, onDetailsClick }) {
+function EnhancedTableToolbar({ numSelected, onDetailsClick, onTrackerClick,onAdddTaskClick }) {
   return (
     <Toolbar
       sx={[
@@ -47,9 +52,15 @@ function EnhancedTableToolbar({ numSelected, onDetailsClick }) {
       )}
 
       {numSelected === 1 ? (
-        <div style={{ display: "flex", alignItems: "center", marginRight: "7rem" }}>
+        <div style={{ display: "flex", alignItems: "center", marginRight: "30rem" }}>
+           <Tooltip title="Vista de Tareas">
+            <IconButton onClick={onAdddTaskClick}><TaskIcon /></IconButton>
+          </Tooltip>
+          <Tooltip title="Seguimiento de tareas">
+            <IconButton onClick={onTrackerClick}><AutoStoriesIcon /></IconButton>
+          </Tooltip>
           <Tooltip title="Detalles">
-            <IconButton onClick={onDetailsClick}>📝</IconButton>
+            <IconButton onClick={onDetailsClick}><EditIcon /></IconButton>
           </Tooltip>
           <Tooltip title="Eliminar">
             <IconButton>
@@ -79,8 +90,9 @@ export default function EnhancedTable({ data = [], typeData = "" }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalTrackerTask, setOpenModalTrackerTask] = useState(false);
+  const [openModalAddTaskClick, setOpenModalAddTaskClick] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
   const handleDetailsClick = () => {
     const user = data.find((u) => u._id === selected[0]);
     if (user) {
@@ -89,8 +101,25 @@ export default function EnhancedTable({ data = [], typeData = "" }) {
     }
   };
 
+  const handleTrackerClick = () => {
+    const user = data.find((u) => u._id === selected[0]);
+    if (user) {
+      setSelectedUser(user);
+      setOpenModalTrackerTask(true);
+    }
+  };
+  const handleAdddTaskClick = () => {
+    const user = data.find((u) => u._id === selected[0]);
+    if (user) {
+      setSelectedUser(user);
+      setOpenModalAddTaskClick(true);
+    }
+  };
+
   const handleCloseModal = () => {
     setOpenModal(false);
+    setOpenModalTrackerTask(false);
+    setOpenModalAddTaskClick(false);
     setSelectedUser(null);
   };
 
@@ -160,6 +189,8 @@ export default function EnhancedTable({ data = [], typeData = "" }) {
         <EnhancedTableToolbar
           numSelected={selected.length}
           onDetailsClick={handleDetailsClick}
+          onTrackerClick={handleTrackerClick}
+          onAdddTaskClick={handleAdddTaskClick}
         />
         <TableContainer>
           <Table sx={{ minWidth: 750 }}>
@@ -225,13 +256,29 @@ export default function EnhancedTable({ data = [], typeData = "" }) {
           userToEdit={selectedUser}
           onSuccess={() => console.log("Refrescar lista después de editar")}
         /> :
+        <div>
+          <ProjectsFormModal
+            open={openModal}
+            onClose={handleCloseModal}
+            userToEdit={selectedUser}
+            onSuccess={() => console.log("Refrescar lista después de editar")}
+          />
+          
+          <TaskTrackerModal
+            open={openModalTrackerTask}
+            onClose={handleCloseModal}
+            userToEdit={selectedUser}
+            onSuccess={() => console.log("Refrescar lista después de editar")}
+          />
 
-        <ProjectsFormModal
-          open={openModal}
-          onClose={handleCloseModal}
-          userToEdit={selectedUser}
-          onSuccess={() => console.log("Refrescar lista después de editar")}
-        />}
+          <TaskFormModal
+            open={openModalAddTaskClick}
+            onClose={handleCloseModal}
+            userToEdit={selectedUser}
+            onSuccess={() => console.log("Refrescar lista después de editar")}
+          />
+        </div>
+      }
 
     </Box>
   );

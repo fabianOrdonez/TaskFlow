@@ -25,6 +25,42 @@ export async function fetchProjects() {
   if (!res.ok) throw new Error("Error al obtener proyectos");
   return res.json();
 }
+export async function addTask(
+                title,
+                description,
+                priority,
+                dueDate,
+                assignedTo ,
+                id_Project
+
+) {
+  const res = await fetch(`${API_BASE}/tasks/project/${id_Project}`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+                title,
+                description,
+                priority,
+                dueDate,
+                assignedTo
+    })
+  });
+  if (!res.ok) throw new Error("Error al obtener proyectos");
+  return res.json();
+
+}
+export async function updateTask(id_task, projectData) {
+  const res = await fetch(`${API_BASE}/tasks/${id_task}`, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify(projectData),
+
+  });
+  if (!res.ok) throw new Error("Error al obtener proyectos");
+  
+  return res.json();
+}
+
 export async function addProjects(
   name,
   description,

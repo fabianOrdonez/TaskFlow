@@ -8,7 +8,7 @@ import {
     MenuItem,
     CircularProgress,
 } from "@mui/material";
-import { addProjects, updateProjects, fetchUsers } from "../api/api";
+import { addTask, updateTask, fetchUsers } from "../api/api";
 
 const modalStyle = {
     position: "absolute",
@@ -24,21 +24,21 @@ const modalStyle = {
 
 export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit }) {
     const isEditing = !!userToEdit;
+    const idProject = userToEdit !== null ?? userToEdit;
 
     const [form, setForm] = useState({
-        name: "",
+        id_Project: idProject ? userToEdit._id : "",
+        title: "",
         description: "",
-        startDate: "",
-        endDate: "",
-        color: "",
-        status: "Sin_inicial",
-        members: [],
+        priority: "baja",
+        dueDate: "",
+        assignedTo: [],
     });
 
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(true);
 
-    // 🔹 Cargar usuarios
+    //  Cargar usuarios
     useEffect(() => {
         const loadUsers = async () => {
             try {
@@ -53,35 +53,33 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
         loadUsers();
     }, []);
 
-    // 🔹 Cargar datos si se está editando
+    // Cargar datos si se está editando
     useEffect(() => {
         if (isEditing) {
             setForm({
-                name: userToEdit.name || "",
+                id_Project: idProject ? userToEdit._id : "",
+                title: userToEdit.title || "",
                 description: userToEdit.description || "",
-                startDate: userToEdit.startDate || "",
-                endDate: userToEdit.endDate || "",
-                color: userToEdit.color || "",
-                status: userToEdit.status || "Sin_inicial",
-                members: userToEdit.members?.map((u) => u._id || u) || [],
+                description: userToEdit.description || "",
+                dueDate: userToEdit.dueDate || "",
+                assignedTo: userToEdit.assignedTo?.map((u) => u._id || u) || [],
             });
         } else {
             setForm({
-                name: "",
+                id_Project: idProject ? userToEdit._id : "",
+                title: "",
                 description: "",
-                startDate: "",
-                endDate: "",
-                color: "",
-                status: "Sin_inicial",
-                members: [],
+                priority: "baja",
+                dueDate: "",
+                assignedTo: [],
             });
         }
     }, [userToEdit, isEditing]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // Si el campo es "members", aseguramos que sea un array
-        if (name === "members") {
+        // Si el campo es "assignedTo", aseguramos que sea un array
+        if (name === "assignedTo") {
             setForm({ ...form, [name]: typeof value === "string" ? value.split(",") : value });
         } else {
             setForm({ ...form, [name]: value });
@@ -92,27 +90,26 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
         e.preventDefault();
 
         try {
-            if (isEditing) {
-                await updateProjects(userToEdit._id, form);
-                alert("Proyecto actualizado");
+            if (!isEditing) {
+                await updateTask(userToEdit._id, form);
+                alert("Tarea actualizado");
             } else {
-                await addProjects(
-                    form.name,
+                await addTask(
+                    form.title,
                     form.description,
-                    form.startDate,
-                    form.endDate,
-                    form.color,
-                    form.status,
-                    form.members
+                    form.priority,
+                    form.dueDate,
+                    form.assignedTo,
+                    idProject ? userToEdit._id : "",
                 );
-                alert("Proyecto registrado");
+                alert("Tarea registrado");
             }
 
             onSuccess && onSuccess();
             onClose();
         } catch (err) {
             console.error(err);
-            alert("Error al guardar Proyecto");
+            alert("Error al guardar Tarea");
         }
     };
 
@@ -120,14 +117,14 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
         <Modal open={open} onClose={onClose}>
             <Box sx={modalStyle}>
                 <Typography variant="h6" gutterBottom>
-                    {isEditing ? "Editar Proyecto" : "Registrar Proyecto"}
+                    {"Registrar tarea"}
                 </Typography>
 
                 <form onSubmit={handleSubmit}>
                     <TextField
                         label="Nombre"
-                        name="name"
-                        value={form.name}
+                        name="title"
+                        value={form.title}
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
@@ -145,63 +142,36 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                     />
 
                     <TextField
-                        name="startDate"
+                        name="dueDate"
                         type="date"
-                        value={form.startDate}
+                        value={form.dueDate}
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
                         required
                         inputProps={{
-                            min: new Date().toISOString().split("T")[0], 
+                            min: new Date().toISOString().split("T")[0],
                         }}
-                        helperText="Fecha de inicio"
+                        helperText="Fecha de Vencimiento"
                     />
 
-                    <TextField
-                        helperText="Fecha de finalización"
-                        type="date"
-                        name="endDate"
-                        inputProps={{
-                            min: new Date().toISOString().split("T")[0], 
-                        }}
-                        value={form.endDate}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        required
-                    />
 
                     <TextField
                         select
-                        label="Estado"
-                        name="status"
-                        value={form.status}
+                        label="Prioridad"
+                        name="priority"
+                        value={form.priority}
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
                     >
-                        <MenuItem value="Sin_inicial">Sin inicial</MenuItem>
-                        <MenuItem value="En proceso">En proceso</MenuItem>
-                        <MenuItem value="finished">Finalizado</MenuItem>
-                        <MenuItem value="archived">Archivado</MenuItem>
+                        <MenuItem value="baja">Baja</MenuItem>
+                        <MenuItem value="media">Media</MenuItem>
+                        <MenuItem value="alta">Alta</MenuItem>
                     </TextField>
 
-                    <TextField
-                        select
-                        label="Color"
-                        name="color"
-                        value={form.color}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                    >
-                        <MenuItem value="#ff0000ff">Rojo</MenuItem>
-                        <MenuItem value="#09ff00ff">Verde</MenuItem>
-                        <MenuItem value="#0051ffff">Azul</MenuItem>
-                    </TextField>
 
-                    {/* 🔹 Campo nuevo: Participantes */}
+                    {/*  Campo nuevo: Participantes */}
                     {loadingUsers ? (
                         <Box sx={{ textAlign: "center", mt: 2 }}>
                             <CircularProgress size={24} />
@@ -210,9 +180,9 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                     ) : (
                         <TextField
                             select
-                            label="Participantes"
-                            name="members"
-                            value={form.members}
+                            label="Asignado a"
+                            name="assignedTo"
+                            value={form.assignedTo}
                             onChange={handleChange}
                             fullWidth
                             margin="normal"

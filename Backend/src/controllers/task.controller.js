@@ -19,9 +19,9 @@ export const createTask = async (req, res) => {
       return res.status(403).json({ message: "No tienes acceso a este proyecto" });
     }
 
-    // Validar que el asignado sea miembro
+    // Validar que el asignado sea miembro    
     const assignedMember = project.members.find(
-      (m) => m._id.toString() === assignedTo
+      (m) => m._id.toString() === assignedTo.toString()
     );
     if (!assignedMember) {
       return res
