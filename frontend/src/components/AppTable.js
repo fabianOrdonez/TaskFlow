@@ -20,7 +20,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
-function EnhancedTableToolbar({ numSelected }) {
+function EnhancedTableToolbar({ numSelected, typeData }) {
     return (
         <Toolbar
             sx={[
@@ -54,19 +54,40 @@ function EnhancedTableToolbar({ numSelected }) {
                 </Typography>
             )}
 
-            {numSelected > 0 ? (
-                <Tooltip title="Eliminar">
-                    <IconButton>
-                        <DeleteIcon />
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filtrar lista">
-                    <IconButton>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+            {numSelected === 1 ? (
+                <div style={{ display: "flex", alignItems: "center", marginRight: "7rem" }}>
+
+                    <Tooltip style={{ margin: "2rem" }} title="Detalles">
+                        Detalles
+                    </Tooltip>
+                    <Tooltip hidden={typeData !== "projects"} title="Ver en Dashboard">
+                        Ver en Dashboard
+                    </Tooltip>
+                    <Tooltip title="Eliminar">
+                        <IconButton>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                </div>
+
+            ) :
+                numSelected > 1 ? (
+
+
+                    <Tooltip title="Eliminar">
+                        <IconButton>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+
+
+                ) : (
+                    <Tooltip title="Filtrar lista">
+                        <IconButton>
+                            <FilterListIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
         </Toolbar>
     );
 }
@@ -75,7 +96,7 @@ EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ data = [] }) {
+export default function EnhancedTable({ data = [], typeData = "" }) {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -87,6 +108,7 @@ export default function EnhancedTable({ data = [] }) {
             </Typography>
         );
     }
+
 
     const columns = Object.keys(data[0]).filter(
         (key) => typeof data[0][key] !== "object" && key !== "__v"
@@ -131,7 +153,7 @@ export default function EnhancedTable({ data = [] }) {
     return (
         <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selected.length} typeData={typeData} />
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }}>
                         <TableHead>

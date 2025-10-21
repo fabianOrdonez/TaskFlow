@@ -10,7 +10,7 @@ export default function UserList() {
 
   return (
     <div className="users">
-      <AppTable data={users} />
+      <AppTable data={users} typeData={"users"} />
     </div>
   );
 }

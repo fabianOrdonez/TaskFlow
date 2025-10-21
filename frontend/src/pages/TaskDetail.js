@@ -4,12 +4,13 @@ import Home from "../components/AppBar"
 import AppDashboard from "../components/Appdashboard";
 
 export default function TaskDetail() {
-   
+
   return (
     <div className="task-detail">
-      <Home />      
-      <h1  align="center">Dashboard</h1>
-      <AppDashboard />      
+      <Home />
+      <h1 align="center">Dashboard</h1>
+      <AppDashboard />
+
     </div>
   );
 }

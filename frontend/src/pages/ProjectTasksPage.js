@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { fetchProjects } from "../api/api";
 import Home from "../components/AppBar"
 import AppTable from "../components/AppTable";
+import { Fab } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 export default function ProjectTasksPage() {
   const [projects, setProjects] = useState([]);
 
@@ -13,7 +15,10 @@ export default function ProjectTasksPage() {
     <div className="projects">
       <Home />
       <h1 align="center">Proyectos</h1>
-      <AppTable data={projects} />
+      <AppTable data={projects} typeData={"projects"} />
+      <Fab color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
     </div>
   );
 }
