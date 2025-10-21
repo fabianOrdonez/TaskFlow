@@ -7,17 +7,17 @@ lenguaje: javaScript
 Base de datos: Mongo DB
 
 Paso para despliegue
-  1) instalacion de dependencias de frontend
+  1) Instalación de dependencias del frontend:
   npm install @mui/icons-material @mui/material @emotion/react @emotion/styled --legacy-peer-deps
   
-  2) instalacion de backend 
+  2) Instalación del backend:
   npm install 
 
   3) base de datos
   cd /deployment
   docker compose up --build -d
 
-Composicion de la base de datos (No Es relacional pero se implemento el grafico para comprender las entidades y atributos)
+Composición de la base de datos (No es relacional, pero se implementó el gráfico para comprender las entidades y atributos)
 ┌────────────────┐
 │     User       │
 │────────────────│
@@ -68,5 +68,4 @@ Composicion de la base de datos (No Es relacional pero se implemento el grafico 
 │ task(Task)      │
 └─────────────────┘
 
-Decisiones técnicas importantes
-implemnetar modulos existentes en el lado del frontend(bibliotecas como material-ui)
+Decisiones técnicas importantes (Implementar módulos existentes en el lado del frontend (bibliotecas como Material-UI / MUI).
