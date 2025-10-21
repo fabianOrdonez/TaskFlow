@@ -6,8 +6,9 @@ import {
     Button,
     Typography,
     MenuItem,
+    CircularProgress,
 } from "@mui/material";
-import { addProjects, updateProjects } from "../api/api";
+import { addProjects, updateProjects, fetchUsers } from "../api/api";
 
 const modalStyle = {
     position: "absolute",
@@ -30,9 +31,29 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
         startDate: "",
         endDate: "",
         color: "",
-        status: "Sin_inicial"
+        status: "Sin_inicial",
+        members: [],
     });
 
+    const [users, setUsers] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(true);
+
+    // 🔹 Cargar usuarios
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                const res = await fetchUsers();
+                setUsers(res);
+            } catch (err) {
+                console.error("Error cargando usuarios:", err);
+            } finally {
+                setLoadingUsers(false);
+            }
+        };
+        loadUsers();
+    }, []);
+
+    // 🔹 Cargar datos si se está editando
     useEffect(() => {
         if (isEditing) {
             setForm({
@@ -41,7 +62,8 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                 startDate: userToEdit.startDate || "",
                 endDate: userToEdit.endDate || "",
                 color: userToEdit.color || "",
-                status: userToEdit.status || "Sin_inicial"
+                status: userToEdit.status || "Sin_inicial",
+                members: userToEdit.members?.map((u) => u._id || u) || [],
             });
         } else {
             setForm({
@@ -50,13 +72,20 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                 startDate: "",
                 endDate: "",
                 color: "",
-                status: "Sin_inicial"
+                status: "Sin_inicial",
+                members: [],
             });
         }
     }, [userToEdit, isEditing]);
 
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        // Si el campo es "members", aseguramos que sea un array
+        if (name === "members") {
+            setForm({ ...form, [name]: typeof value === "string" ? value.split(",") : value });
+        } else {
+            setForm({ ...form, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -65,17 +94,25 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
         try {
             if (isEditing) {
                 await updateProjects(userToEdit._id, form);
-                alert("Proyecto actualizado ");
+                alert("Proyecto actualizado");
             } else {
-                await addProjects(form.name, form.description, form.startDate, form.endDate, form.color, form.status);
-                alert("Proyecto registrado ");
+                await addProjects(
+                    form.name,
+                    form.description,
+                    form.startDate,
+                    form.endDate,
+                    form.color,
+                    form.status,
+                    form.members
+                );
+                alert("Proyecto registrado");
             }
 
             onSuccess && onSuccess();
             onClose();
         } catch (err) {
             console.error(err);
-            alert("Error al guardar Proyecto ");
+            alert("Error al guardar Proyecto");
         }
     };
 
@@ -95,7 +132,9 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         fullWidth
                         margin="normal"
                         required
-                    /> <TextField
+                    />
+
+                    <TextField
                         label="Descripción"
                         name="description"
                         value={form.description}
@@ -104,6 +143,7 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         margin="normal"
                         required
                     />
+
                     <TextField
                         name="startDate"
                         type="date"
@@ -112,9 +152,9 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         fullWidth
                         margin="normal"
                         required
-
                         helperText="Fecha de inicio"
                     />
+
                     <TextField
                         helperText="Fecha de finalización"
                         type="date"
@@ -125,6 +165,7 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         margin="normal"
                         required
                     />
+
                     <TextField
                         select
                         label="Estado"
@@ -134,11 +175,12 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         fullWidth
                         margin="normal"
                     >
-                        <MenuItem hidden value="archived">archived</MenuItem>
-                        <MenuItem value="in_progress">En proceso</MenuItem>
+                        <MenuItem value="Sin_inicial">Sin inicial</MenuItem>
+                        <MenuItem value="En proceso">En proceso</MenuItem>
                         <MenuItem value="finished">Finalizado</MenuItem>
-                        <MenuItem value="Sin inicial">Sin inicial</MenuItem>
+                        <MenuItem value="archived">Archivado</MenuItem>
                     </TextField>
+
                     <TextField
                         select
                         label="Color"
@@ -152,6 +194,32 @@ export default function ProjectsFormModal({ open, onClose, onSuccess, userToEdit
                         <MenuItem value="#09ff00ff">Verde</MenuItem>
                         <MenuItem value="#0051ffff">Azul</MenuItem>
                     </TextField>
+
+                    {/* 🔹 Campo nuevo: Participantes */}
+                    {loadingUsers ? (
+                        <Box sx={{ textAlign: "center", mt: 2 }}>
+                            <CircularProgress size={24} />
+                            <Typography variant="body2">Cargando usuarios...</Typography>
+                        </Box>
+                    ) : (
+                        <TextField
+                            select
+                            label="Participantes"
+                            name="members"
+                            value={form.members}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                            SelectProps={{ multiple: true }}
+                            helperText="Selecciona uno o varios usuarios"
+                        >
+                            {users.map((user) => (
+                                <MenuItem key={user._id} value={user._id}>
+                                    {user.name} ({user.email})
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    )}
 
                     <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
                         {isEditing ? "Guardar cambios" : "Registrar"}

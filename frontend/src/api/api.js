@@ -30,7 +30,9 @@ export async function addProjects(
   description,
   startDate,
   endDate,
-  color
+  color,
+  members
+
 ) {
   const res = await fetch(`${API_BASE}/projects`, {
     method: "POST",
@@ -40,7 +42,8 @@ export async function addProjects(
       description,
       startDate,
       endDate,
-      color
+      color,
+      members
     })
   });
   if (!res.ok) throw new Error("Error al obtener proyectos");
