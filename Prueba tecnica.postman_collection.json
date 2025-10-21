@@ -1,0 +1,455 @@
+{
+	"info": {
+		"_postman_id": "3cb729d1-18bf-4f60-9d95-a32c76771f16",
+		"name": "Prueba tecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20472895"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"fabian@test.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"fabian\",\r\n    \"email\": \"fabian@test.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZkOGU3MGQ5M2FlZmUxZTcwYTcyMCIsImlhdCI6MTc2MTAxNTY0NCwiZXhwIjoxNzYxMTAyMDQ0fQ.K3WYyFSgTHlSw-tvlXGUN9NRIMli_YZoLAsAwfP3MdU"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/auth/profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "created",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZkOGU3MGQ5M2FlZmUxZTcwYTcyMCIsImlhdCI6MTc2MTAxOTcxNSwiZXhwIjoxNzYxMTA2MTE1fQ.r7aU65uDx1sRMfVlcTyeOncbzs_hfb152lo0eKxv9GA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"name\": \"Proyecto Kanban3\",\r\n  \"description\": \"Gestor de tareas\",\r\n  \"startDate\": \"2025-10-20\",\r\n  \"endDate\": \"2025-12-01\",\r\n  \"color\": \"#ff9800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects"
+					},
+					"response": []
+				},
+				{
+					"name": "view",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMTA5NiwiZXhwIjoxNzYxMDg3NDk2fQ.1XseyGesH0Ay2eoWLzBkYXphasFv8Zm8c5mXy4bJ3Gk"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"name\": \"Proyecto\",\r\n  \"description\": \"Gestor de tareas\",\r\n  \"startDate\": \"2025-10-20\",\r\n  \"endDate\": \"2025-12-01\",\r\n  \"color\": \"#ff9800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"68f6c9c155b15cfc12dd49a1\",\r\n    \"name\": \"Proyecto\",\r\n    \"description\": \"Gestor de tareas\",\r\n    \"startDate\": \"2025-10-20T00:00:00.000Z\",\r\n    \"endDate\": \"2025-12-01T00:00:00.000Z\",\r\n    \"color\": \"#ff9800\",\r\n    \"status\": \"active\",\r\n    \"owner\": {\r\n        \"_id\": \"68f6be48642007fe5b02b975\",\r\n        \"name\": \"Fabian\",\r\n        \"email\": \"fabian@test.com\"\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"_id\": \"68f6be48642007fe5b02b975\",\r\n            \"name\": \"Fabian\",\r\n            \"email\": \"fabian@test.com\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects/68f6c9c155b15cfc12dd49a1"
+					},
+					"response": []
+				},
+				{
+					"name": "add Member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"68f6be48642007fe5b02b975\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects/68f6c9c155b15cfc12dd49a1/members"
+					},
+					"response": []
+				},
+				{
+					"name": "remove Member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"68f6be48642007fe5b02b975\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects/68f6c9c155b15cfc12dd49a1/members"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/projects/68f6c9c155b15cfc12dd49a1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "created",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZkOGU3MGQ5M2FlZmUxZTcwYTcyMCIsImlhdCI6MTc2MTA0NjcyNywiZXhwIjoxNzYxMTMzMTI3fQ.yu9BXdI250kquIKqqNkSaJtqL67n_ys9CuulqUOLfJ8"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Diseñar dashboard\",\r\n  \"description\": \"Diseñar la vista de tablero Kanban\",\r\n  \"priority\": \"alta\",\r\n  \"dueDate\": \"2025-11-15\",\r\n  \"assignedTo\": \"68f6d8e70d93aefe1e70a720\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/tasks/project/{{id_Project}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Busqueda por nombre o estado",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZkOGU3MGQ5M2FlZmUxZTcwYTcyMCIsImlhdCI6MTc2MTA0NjcyNywiZXhwIjoxNzYxMTMzMTI3fQ.yu9BXdI250kquIKqqNkSaJtqL67n_ys9CuulqUOLfJ8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"name\": \"Proyecto\",\r\n  \"description\": \"Gestor de tareas\",\r\n  \"startDate\": \"2025-10-20\",\r\n  \"endDate\": \"2025-12-01\",\r\n  \"color\": \"#ff9800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tasks/project/{{id_Project}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"project",
+								"{{id_Project}}"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "por hacer",
+									"disabled": true
+								},
+								{
+									"key": "titulo",
+									"value": "Diseñar dashboard",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"68f6ceeb17294311d0ce6dbe\",\r\n    \"title\": \"Diseñar dashboard\",\r\n    \"description\": \"Diseñar la vista de tablero Kanban\",\r\n    \"priority\": \"media\",\r\n    \"status\": \"en progreso\",\r\n    \"dueDate\": \"2025-11-15T00:00:00.000Z\",\r\n    \"assignedTo\": {\r\n        \"_id\": \"68f6ce75daf9f35086900885\",\r\n        \"name\": \"Victor\",\r\n        \"email\": \"victor@test.com\"\r\n    },\r\n    \"project\": \"68f6c9c155b15cfc12dd49a1\",\r\n    \"createdAt\": \"2025-10-21T00:08:11.319Z\",\r\n    \"updatedAt\": \"2025-10-21T00:08:11.319Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/tasks/{{id_task}}"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMzQyMCwiZXhwIjoxNzYxMDg5ODIwfQ.ds7L4yauiKQee6JrEyeS761ndpNfo_UDyRQA5Yz89kk"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/tasks/{{id_task}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "created",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMTA5NiwiZXhwIjoxNzYxMDg3NDk2fQ.1XseyGesH0Ay2eoWLzBkYXphasFv8Zm8c5mXy4bJ3Gk"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"projectId\": \"68f6c9c155b15cfc12dd49a1\",\r\n  \"taskId\": \"68f6d15417294311d0ce6e27\",\r\n  \"content\": \"Excelente avance!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMTA5NiwiZXhwIjoxNzYxMDg3NDk2fQ.1XseyGesH0Ay2eoWLzBkYXphasFv8Zm8c5mXy4bJ3Gk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/comments/68f6c9c155b15cfc12dd49a1?taskId=68f6d15417294311d0ce6e27",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"68f6c9c155b15cfc12dd49a1"
+							],
+							"query": [
+								{
+									"key": "taskId",
+									"value": "68f6d15417294311d0ce6e27"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZjZiZTQ4NjQyMDA3ZmU1YjAyYjk3NSIsImlhdCI6MTc2MTAwMTA5NiwiZXhwIjoxNzYxMDg3NDk2fQ.1XseyGesH0Ay2eoWLzBkYXphasFv8Zm8c5mXy4bJ3Gk"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/comments/68f6c9c155b15cfc12dd49a1?taskId=68f6d15417294311d0ce6e27",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"68f6c9c155b15cfc12dd49a1"
+							],
+							"query": [
+								{
+									"key": "taskId",
+									"value": "68f6d15417294311d0ce6e27"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "id_Project",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "id_task",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "id_comment",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

@@ -1,1 +1,69 @@
-npm install @mui/icons-material @mui/material @emotion/react @emotion/styled --legacy-peer-deps
+
+
+Tecnologias
+Backend: node.js
+Frontend: React.js
+lenjuaje: javaScript
+Base de datos: Mongo DB
+
+Paso para despliegue
+  1) instalacion de dependencias de frontend
+  npm install @mui/icons-material @mui/material @emotion/react @emotion/styled --legacy-peer-deps
+  
+  2) instalacion de backend 
+  npm install 
+
+  3) base de datos
+  cd /deployment
+  docker compose up --build -d
+
+Composicion de la base de datos (No Es relacional pero se implemento el grafico para comprender las entidades y atributos)
+┌────────────────┐
+│     User       │
+│────────────────│
+│ _id            │
+│ name           │
+│ email          │
+│ password       │
+│ role           │
+│ active         │
+└──────┬─────────┘
+       │1
+       │
+       │N
+┌──────▼──────────┐
+│    Project      │
+│────────────────│
+│ _id             │
+│ name            │
+│ description     │
+│ startDate       │
+│ endDate         │
+│ owner (User)    │────────────┐
+│ members [User]  │────────────┐
+└──────┬──────────┘            │
+       │1                      │N
+       │                       │
+       │N                      │
+┌──────▼──────────┐             │
+│     Task        │             │
+│────────────────│             │
+│ _id             │             │
+│ title           │             │
+│ description     │             │
+│ assignedTo(User)│─────────────┘
+│ project(Project)│
+│ dueDate         │
+│ status          │
+└──────┬──────────┘
+       │1
+       │N
+┌──────▼──────────┐
+│    Comment      │
+│────────────────│
+│ _id             │
+│ content         │
+│ author(User)    │
+│ project(Project)│
+│ task(Task)      │
+└─────────────────┘
