@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  mongodb:
+    build:
+      context: ../database
+      dockerfile: Dockerfile
+    container_name: project-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    env_file: ../database/.env
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
