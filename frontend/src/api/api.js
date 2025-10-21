@@ -15,16 +15,44 @@ function getHeaders(isJson = true) {
 }
 
 export async function fetchUsers() {
-  const res = await fetch(`${API_BASE}/users`, {
-    headers: getHeaders(),
-  });
+  const res = await fetch(`${API_BASE}/users`, { headers: getHeaders() });
   if (!res.ok) throw new Error("Error al obtener usuarios");
   return res.json();
 }
 
 export async function fetchProjects() {
+  const res = await fetch(`${API_BASE}/projects`, { headers: getHeaders() });
+  if (!res.ok) throw new Error("Error al obtener proyectos");
+  return res.json();
+}
+export async function addProjects(
+  name,
+  description,
+  startDate,
+  endDate,
+  color
+) {
   const res = await fetch(`${API_BASE}/projects`, {
+    method: "POST",
     headers: getHeaders(),
+    body: JSON.stringify({
+      name,
+      description,
+      startDate,
+      endDate,
+      color
+    })
+  });
+  if (!res.ok) throw new Error("Error al obtener proyectos");
+  return res.json();
+
+}
+export async function updateProjects(projectId, projectData) {
+  const res = await fetch(`${API_BASE}/projects/${projectId}`, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify(projectData),
+
   });
   if (!res.ok) throw new Error("Error al obtener proyectos");
   return res.json();
@@ -67,9 +95,7 @@ export async function loginUser(email, password) {
 
   const data = await res.json();
 
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-  }
+  if (data.token) localStorage.setItem("token", data.token);
 
   return data;
 }
@@ -82,5 +108,24 @@ export async function registerUser(name, email, password) {
   });
 
   if (!res.ok) throw new Error("Error al registrar usuario");
+  return res.json();
+}
+export async function updateUser(id, userData) {
+  const res = await fetch(`${API_BASE}/auth/${id}`, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify(userData),
+  });
+  if (!res.ok) throw new Error("Error al actualizar usuario");
+  return res.json();
+}
+
+export async function deleteUser(id) {
+  const res = await fetch(`${API_BASE}/auth/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+
+  if (!res.ok) throw new Error("Error al eliminar usuario");
   return res.json();
 }

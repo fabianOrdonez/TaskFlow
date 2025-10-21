@@ -9,7 +9,6 @@ export const createProject = async (req, res) => {
     if (!name || !startDate || !endDate) {
       return res.status(400).json({ message: "Faltan campos obligatorios" });
     }
-
     const project = await Project.create({
       name,
       description,
