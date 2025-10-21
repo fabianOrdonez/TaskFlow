@@ -13,8 +13,8 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/user', usersRoutes);
+app.use('/api/users', authRoutes);
+app.use('/api/auth', usersRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/comments', commentsRoutes);
