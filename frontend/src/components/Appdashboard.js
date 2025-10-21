@@ -10,7 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 
-import { fetchProjects } from "../api/api";
+import { fetchProjects, fetchTasks } from "../api/api";
 /** Funciones auxiliares */
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -24,11 +24,18 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-export default function ProjectStatusManager() {
+export default function ProjectStatusManager(type_data,toEdit) {
   const [projects, setProjects] = useState([]);
+  
 
   useEffect(() => {
-    fetchProjects().then(setProjects);
+    if (type_data.type === "Task") {
+      if(type_data.toEdit)      
+      fetchTasks(type_data.toEdit._id).then(setProjects);
+    }
+    else {
+      fetchProjects().then(setProjects);
+    }
   }, []);
 
   const [checked, setChecked] = useState([]);
@@ -40,9 +47,9 @@ export default function ProjectStatusManager() {
   const [finished, setFinished] = useState([]);
   useEffect(() => {
     if (projects && projects.length > 0) {
-      setStarted(projects.filter((p) => p.status === "Sin inicial"));
-      setInProgress(projects.filter((p) => p.status === "in_progress"));
-      setFinished(projects.filter((p) => p.status === "finished"));
+      setStarted(projects.filter((p) =>   p.status === "Sin inicial"||p.status === "por hacer"));
+      setInProgress(projects.filter((p) =>  p.status === "in_progress"||p.status === "en progreso"));
+      setFinished(projects.filter((p) =>  p.status === "finished"||p.status === "completada"));
     }
   }
     , [projects]);
@@ -101,7 +108,7 @@ export default function ProjectStatusManager() {
     const resultInProgress = inProgress.length > 0 ? inProgress.map(t => ({ ...t, status: "in_progress" })) : [];
     const resultStarted = started.length > 0 ? started.map(t => ({ ...t, status: "Sin inicial" })) : [];
     const resultado = [...resultFinished, ...resultInProgress, ...resultStarted];
-    
+
   };
 
   /** Render de cada lista */

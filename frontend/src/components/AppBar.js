@@ -16,7 +16,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = [
   { label: "Usuarios", path: "/" },
-  { label: "Proyectos", path: "/projects" }, // puedes cambiar el id dinámico luego
+  { label: "Proyectos", path: "/projects" },
   { label: "Seguimiento", path: "/tasks" },
 ];
 
@@ -37,7 +37,7 @@ function ResponsiveAppBar() {
     localStorage.removeItem("token");
     window.location.href = window.location.href;
     setToken(null);
-    navigate("/"); // redirige al inicio o login
+    navigate("/");
   };
 
   return (
