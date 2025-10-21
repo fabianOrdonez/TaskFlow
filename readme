@@ -67,3 +67,6 @@ Composicion de la base de datos (No Es relacional pero se implemento el grafico 
 │ project(Project)│
 │ task(Task)      │
 └─────────────────┘
+
+Decisiones técnicas importantes
+implemnetar modulos existentes en el lado del frontend(bibliotecas como material-ui)
