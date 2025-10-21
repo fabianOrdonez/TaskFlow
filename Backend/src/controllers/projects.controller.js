@@ -31,7 +31,7 @@ export const getMyProjects = async (req, res) => {
   try {
     const projects = await Project.find({
       members: req.user._id,
-      status: "active",
+      // status: "active",
     }).populate("owner", "name email");
 
     res.json(projects);

@@ -31,8 +31,8 @@ const projectSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["active", "archived"],
-      default: "active",
+      enum: ["Sin inicial", "Finalizado", "En proceso", "archived"],
+      default: "Sin inicial",
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

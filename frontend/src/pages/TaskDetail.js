@@ -1,15 +1,15 @@
-import React from "react";
+import * as React from "react";
 import CommentList from "../components/CommentList";
 import Home from "../components/AppBar"
-export default function TaskDetail({ task }) {
-  if (!task) return null;
+import AppDashboard from "../components/Appdashboard";
+
+export default function TaskDetail() {
+   
   return (
     <div className="task-detail">
-      
-      <Home />
-      <h2>{task.title}</h2>
-      <p>{task.description}</p>
-      <CommentList taskId={task._id} userId={"68f6be48642007fe5b02b975"} />
+      <Home />      
+      <h1  align="center">Dashboard</h1>
+      <AppDashboard />      
     </div>
   );
 }

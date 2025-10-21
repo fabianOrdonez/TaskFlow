@@ -16,8 +16,8 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = [
   { label: "Usuarios", path: "/" },
-  { label: "Proyectos", path: "/projects/1" }, // puedes cambiar el id dinámico luego
-  { label: "Seguimiento", path: "/tasks/1" },
+  { label: "Proyectos", path: "/projects" }, // puedes cambiar el id dinámico luego
+  { label: "Seguimiento", path: "/tasks" },
 ];
 
 const settings = ["Logout"];

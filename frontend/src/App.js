@@ -28,8 +28,8 @@ function App() {
           <>
             <Routes>
               <Route path="/"element={<UsersPage />} />
-              <Route path="/projects/:id" element={<ProjectTasksPage />} />
-              <Route path="/tasks/:id" element={<TaskDetail />} />
+              <Route path="/projects" element={<ProjectTasksPage />} />
+              <Route path="/tasks" element={<TaskDetail />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </>
